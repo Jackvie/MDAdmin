@@ -303,7 +303,7 @@ DEFAULT_FILE_STORAGE = 'meiduo_mall.utils.fdfs.storage.FDFSStorage'
 
 # 当添加、修改、删除数据时，自动生成索引
 # HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-# # 页大小
+# 页大小
 # HAYSTACK_SEARCH_RESULTS_PER_PAGE = 2
 
 # 支付宝配置
@@ -330,6 +330,9 @@ REST_FRAMEWORK = {
     ),
 
     'EXCEPTION_HANDLER': 'meiduo_admin.utils.exceptions.exception_handler',
+
+    # 全局分页类设置
+    'DEFAULT_PAGINATION_CLASS': 'meiduo_admin.utils.pagination.StandardResultPagination',
 }
 # JWT扩展配置
 JWT_AUTH = {
@@ -342,3 +345,4 @@ CORS_ORIGIN_WHITELIST=(
 )
 # CORS_ORIGIN_ALLOW_ALL=True
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
+

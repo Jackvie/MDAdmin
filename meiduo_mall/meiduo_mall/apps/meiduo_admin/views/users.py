@@ -1,4 +1,6 @@
-from rest_framework.generics import CreateAPIView
+from django.db import DatabaseError
+from rest_framework import status
+from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -7,7 +9,8 @@ from django.utils import timezone
 
 
 # POST /meiduo_admin/authorizations/
-
+from meiduo_admin.serializer.users import UserSerializer, AdminAuthSerializer
+from users.models import User
 
 
 class AdminAuthorizeView(CreateAPIView):
@@ -38,6 +41,21 @@ class AdminAuthorizeView(CreateAPIView):
 #
 #         # 3. 返回应答
 #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# GET /meiduo_admin/users/?keyword=<搜索内容>&page=<页码>&pagesize=<页容量>
+class UserInfoView(ListCreateAPIView):
+    """查询用户"""
+    permission_classes = [IsAdminUser]
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        keyword = self.request.query_params.get("keyword")
+        if not keyword:
+            users = User.objects.filter(is_staff=False)
+        else:
+            users = User.objects.filter(is_staff=False, username__contains=keyword)
+        return users
+
 
 
 
