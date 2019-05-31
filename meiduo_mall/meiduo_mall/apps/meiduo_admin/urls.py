@@ -3,6 +3,7 @@ from django.conf.urls import url
 from meiduo_admin.serializer.skus import SKUSerializer
 from meiduo_admin.views import users,statistical
 from meiduo_admin.views.channels import ChannelViewSet, ChannelCategoriesView, ChannelTypesView
+from meiduo_admin.views.orders import OrdersViewSet
 from meiduo_admin.views.skus import SKUImageViewSet, SKUSimpleView, SKUViewSet, SKUCategoriesView
 from meiduo_admin.views.spus import SPUSimpleView, SPUSpecView
 
@@ -37,5 +38,6 @@ router = DefaultRouter()
 router.register(r"goods/channels", ChannelViewSet, base_name="channels")
 router.register(r"skus/images", SKUImageViewSet, base_name="images")
 router.register(r"skus", SKUViewSet, base_name="skus")
+router.register(r'orders', OrdersViewSet, base_name='orders')
 
 urlpatterns += router.urls
