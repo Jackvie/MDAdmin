@@ -2,10 +2,14 @@ from django.conf.urls import url
 
 from meiduo_admin.serializer.skus import SKUSerializer
 from meiduo_admin.views import users,statistical
+from meiduo_admin.views.brands import GoodsBrandsViewSet
 from meiduo_admin.views.channels import ChannelViewSet, ChannelCategoriesView, ChannelTypesView
+from meiduo_admin.views.options import SpecsOptionsViewSet, GoodsSpecsSimpleView
 from meiduo_admin.views.orders import OrdersViewSet
 from meiduo_admin.views.skus import SKUImageViewSet, SKUSimpleView, SKUViewSet, SKUCategoriesView
-from meiduo_admin.views.spus import SPUSimpleView, SPUSpecView
+from meiduo_admin.views.specs import GoodsSpecsViewSet
+from meiduo_admin.views.spus import SPUSimpleView, SPUSpecView, GoodsViewSet, GoodsBrandsSimpleView, \
+    GoodsChannelCategoriesViewSet
 
 urlpatterns = [
     url(r'^authorizations/$', users.AdminAuthorizeView.as_view()),
@@ -30,6 +34,10 @@ urlpatterns = [
     url(r'^goods/simple/$', SPUSimpleView.as_view()),
     # . 获取SPU商品规格信息
     url(r'^goods/(?P<pk>\d+)/specs/$', SPUSpecView.as_view()),
+    # ..for
+    url(r'^goods/specs/simple/$', GoodsSpecsSimpleView.as_view()),
+    #
+    url(r'^goods/brands/simple/$', GoodsBrandsSimpleView.as_view()),
 ]
 
 from rest_framework.routers import DefaultRouter
@@ -39,5 +47,10 @@ router.register(r"goods/channels", ChannelViewSet, base_name="channels")
 router.register(r"skus/images", SKUImageViewSet, base_name="images")
 router.register(r"skus", SKUViewSet, base_name="skus")
 router.register(r'orders', OrdersViewSet, base_name='orders')
+router.register(r'goods/brands', GoodsBrandsViewSet, base_name="brands")
+router.register(r'goods/specs', GoodsSpecsViewSet, base_name="specs")
+router.register(r'goods', GoodsViewSet, base_name="goods")
+router.register(r'specs/options', SpecsOptionsViewSet, base_name="options")
+router.register(r'goods/channel/categories', GoodsChannelCategoriesViewSet ,base_name="categories")
 
 urlpatterns += router.urls

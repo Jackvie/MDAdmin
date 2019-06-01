@@ -19,3 +19,31 @@ class StandardResultPagination(PageNumberPagination):
             ('pages', self.page.paginator.num_pages),
             ('pagesize', self.get_page_size(self.request))
         ]))
+
+
+class SmallPagination(StandardResultPagination):
+    def get_paginated_response(self, data):
+        return Response(OrderedDict([
+            ('list', data),
+            ('page', self.page.number),
+            ('pages', self.page.paginator.num_pages),
+            ('pagesize', self.get_page_size(self.request))
+        ]))
+
+
+class MiddlePagination(StandardResultPagination):
+    def get_paginated_response(self, data):
+        for every_dict in data:
+            spu = every_dict["spu"]
+            spu_id = every_dict["spu_id"]
+            every_dict["goods"]=spu
+            every_dict["goods_id"]=spu_id
+            del every_dict["spu"]
+            del every_dict["spu_id"]
+
+        return Response(OrderedDict([
+            ('list', data),
+            ('page', self.page.number),
+            ('pages', self.page.paginator.num_pages),
+            ('pagesize', self.get_page_size(self.request))
+        ]))

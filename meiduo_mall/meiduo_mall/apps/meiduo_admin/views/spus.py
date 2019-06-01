@@ -2,9 +2,13 @@
 # GET /meiduo_admin/goods/simple/
 from rest_framework.generics import ListAPIView, GenericAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
-from goods.models import SPU, SPUSpecification
-from meiduo_admin.serializer.spus import SPUSimpleSerializer, SPUSpecSerializer
+from goods.models import SPU, SPUSpecification, Brand, GoodsCategory
+from meiduo_admin.serializer.spus import SPUSimpleSerializer, SPUSpecSerializer, GoodsSerializer, \
+    GoodsBrandsSimpleSerializer, GoodsChannelCategoriesSerializer, GoodsChannelCategoriesSerializer23
+from meiduo_admin.utils.pagination import SmallPagination
 
 
 class SPUSimpleView(ListAPIView):
@@ -38,4 +42,43 @@ class SPUSpecView(ListAPIView):
 #         pagination_class = None
 #         return Response(serializer.data)
 
+# /goods/
+class GoodsViewSet(ModelViewSet):
+    """SPU序列化器类"""
+    permission_classes = [IsAdminUser]
+    serializer_class = GoodsSerializer
+    queryset = SPU.objects.all()
 
+    pagination_class = SmallPagination
+
+
+# goods/brands/simple/
+class GoodsBrandsSimpleView(ListAPIView):
+    """"""
+    permission_classes = [IsAdminUser]
+    serializer_class = GoodsBrandsSimpleSerializer
+    queryset = Brand.objects.all()
+    pagination_class = None
+
+
+# goods/channel/categories/
+class GoodsChannelCategoriesViewSet(ReadOnlyModelViewSet):
+    """{
+                "id": "分
+                "name":
+                "subs": [
+                ]
+    }"""
+    permission_classes = [IsAdminUser]
+    def get_serializer_class(self):
+        if self.action == "list":
+            return GoodsChannelCategoriesSerializer
+        else:
+            return GoodsChannelCategoriesSerializer23
+    def get_queryset(self):
+        if self.kwargs.get("pk"):
+            category = GoodsCategory.objects.all()
+        else:
+            category = GoodsCategory.objects.filter(parent__isnull=True)
+        return category
+    pagination_class = None

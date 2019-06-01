@@ -184,6 +184,7 @@ export default {
       })
       .then(dat=>{
           this['category' + num + '_list'] = dat.data.subs;
+          // this['category' + num + '_list'] = dat.data;
       }).catch(err=>{
          console.log(err);
       });
@@ -300,3 +301,4 @@ export default {
     margin:15px auto 10px;
   }
 </style>
+
