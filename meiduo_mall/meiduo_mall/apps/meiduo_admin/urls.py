@@ -6,6 +6,7 @@ from meiduo_admin.views.brands import GoodsBrandsViewSet
 from meiduo_admin.views.channels import ChannelViewSet, ChannelCategoriesView, ChannelTypesView
 from meiduo_admin.views.options import SpecsOptionsViewSet, GoodsSpecsSimpleView
 from meiduo_admin.views.orders import OrdersViewSet
+from meiduo_admin.views.permissions import PermissionViewSet, GroupViewSet, AdminViewSet
 from meiduo_admin.views.skus import SKUImageViewSet, SKUSimpleView, SKUViewSet, SKUCategoriesView
 from meiduo_admin.views.specs import GoodsSpecsViewSet
 from meiduo_admin.views.spus import SPUSimpleView, SPUSpecView, GoodsViewSet, GoodsBrandsSimpleView, \
@@ -38,6 +39,12 @@ urlpatterns = [
     url(r'^goods/specs/simple/$', GoodsSpecsSimpleView.as_view()),
     #
     url(r'^goods/brands/simple/$', GoodsBrandsSimpleView.as_view()),
+    #
+    url(r'^permission/content_types/$', PermissionViewSet.as_view({"get":"content_types"})),
+    #
+    url(r'^permission/simple/$', GroupViewSet.as_view({"get":"simple"})),
+    #
+    url(r'^permission/groups/simple/$', AdminViewSet.as_view({"get":"simple"})),
 ]
 
 from rest_framework.routers import DefaultRouter
@@ -52,5 +59,8 @@ router.register(r'goods/specs', GoodsSpecsViewSet, base_name="specs")
 router.register(r'goods', GoodsViewSet, base_name="goods")
 router.register(r'specs/options', SpecsOptionsViewSet, base_name="options")
 router.register(r'goods/channel/categories', GoodsChannelCategoriesViewSet ,base_name="categories")
+router.register(r'permission/perms', PermissionViewSet, base_name='permission')
+router.register(r'permission/groups', GroupViewSet, base_name='group')
+router.register(r'permission/admins', AdminViewSet, base_name="admin")
 
 urlpatterns += router.urls
