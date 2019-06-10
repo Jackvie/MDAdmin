@@ -22,7 +22,8 @@ class GoodsBrandsSerializer(serializers.ModelSerializer):
         try:
             fdfs = FDFSStorage()
             file_id = fdfs.save(logo.name, logo)
-        except Exception:
+        except Exception as e:
+            print(e)
             raise APIException("上传FDFSLOGO失败")
         brand = Brand.objects.create(
             name = name,

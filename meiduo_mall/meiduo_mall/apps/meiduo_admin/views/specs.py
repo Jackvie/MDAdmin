@@ -7,13 +7,13 @@ from meiduo_admin.utils.pagination import MiddlePagination
 
 
 class GoodsSpecsViewSet(ModelViewSet):
-    """/goods/specs/"""
+    """/goods/specs/
+    将前端的json数据替换
+    """
     permission_classes = {IsAdminUser}
     def get_serializer_class(self):
-
         if self.request.data.get("goods_id"):
-            self.request.data["spu_id"] = self.request.data.get("goods_id")
-            del self.request.data["goods_id"]
+            self.request.data["spu_id"] = self.request.data.pop("goods_id")
         return GoodsSpecsSerializer
     queryset = SPUSpecification.objects.all()
     pagination_class = MiddlePagination

@@ -1,7 +1,6 @@
 from meiduo_mall.utils import meiduo_json
 from django_redis import get_redis_connection
 
-
 def merge_cart(request, response):
     # 这个方法使用在登录视图中，在登录时，请求报文request中不包含用户对象
     # 当状态保持后，request.user才是一个有效的用户对象

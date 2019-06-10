@@ -16,7 +16,7 @@ class SpecsOptionsViewSet(ModelViewSet):
     queryset = SpecificationOption.objects.all()
     serializer_class = SpecsOptionsSerializer
 
-    pagination_class = SmallPagination
+    # pagination_class = SmallPagination
 
 # goods/specs/simple/
 class GoodsSpecsSimpleView(ListAPIView):

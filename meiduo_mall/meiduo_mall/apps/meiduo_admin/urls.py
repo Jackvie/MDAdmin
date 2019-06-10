@@ -47,9 +47,10 @@ urlpatterns = [
     url(r'^permission/groups/simple/$', AdminViewSet.as_view({"get":"simple"})),
 ]
 
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import DefaultRouter,SimpleRouter
 
 router = DefaultRouter()
+# router = SimpleRouter()
 router.register(r"goods/channels", ChannelViewSet, base_name="channels")
 router.register(r"skus/images", SKUImageViewSet, base_name="images")
 router.register(r"skus", SKUViewSet, base_name="skus")
@@ -64,3 +65,4 @@ router.register(r'permission/groups', GroupViewSet, base_name='group')
 router.register(r'permission/admins', AdminViewSet, base_name="admin")
 
 urlpatterns += router.urls
+print(urlpatterns)

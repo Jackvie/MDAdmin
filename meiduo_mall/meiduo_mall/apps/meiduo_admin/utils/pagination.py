@@ -33,13 +33,10 @@ class SmallPagination(StandardResultPagination):
 
 class MiddlePagination(StandardResultPagination):
     def get_paginated_response(self, data):
+        """更新返回给前端的OrderDict"""
         for every_dict in data:
-            spu = every_dict["spu"]
-            spu_id = every_dict["spu_id"]
-            every_dict["goods"]=spu
-            every_dict["goods_id"]=spu_id
-            del every_dict["spu"]
-            del every_dict["spu_id"]
+            every_dict["goods"]=every_dict.pop('spu')
+            every_dict["goods_id"]=every_dict.pop('spu_id')
 
         return Response(OrderedDict([
             ('list', data),

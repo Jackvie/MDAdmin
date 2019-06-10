@@ -4,6 +4,7 @@ from rest_framework.generics import ListAPIView, GenericAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from django.db.models import Q
 
 from goods.models import SPU, SPUSpecification, Brand, GoodsCategory
 from meiduo_admin.serializer.spus import SPUSimpleSerializer, SPUSpecSerializer, GoodsSerializer, \
@@ -77,7 +78,7 @@ class GoodsChannelCategoriesViewSet(ReadOnlyModelViewSet):
             return GoodsChannelCategoriesSerializer23
     def get_queryset(self):
         if self.kwargs.get("pk"):
-            category = GoodsCategory.objects.all()
+            category = GoodsCategory.objects.filter(~Q(subs=None))
         else:
             category = GoodsCategory.objects.filter(parent__isnull=True)
         return category
